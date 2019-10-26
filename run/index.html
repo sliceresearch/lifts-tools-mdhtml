@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <title>lifts_tools</title>
+         <meta charset="utf-8">
+	       <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+         <script src="lib/js/showdown.min.js"></script>
+         <script src="js/lifts-tools.js" type="text/javascript"></script>
+         <style>
+         html, body {
+            position: absolute;
+            height: 100%;
+            max-height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+          }
+          iframe {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            border: none;
+          }
+          #container {
+            position: absolute;
+            top: 250px; /* Change with Height of #header */
+            bottom: 0;
+            width: 100%;
+            overflow: hidden ;
+          }
+          #code {
+            position: absolute;
+            top: 50px;
+            height: 200px; /* Change with top of #container */
+            color: #000;
+            background-color: #fff;
+            width: 100%;
+              overflow: scroll ;
+          }
+
+          #header {
+            position: absolute;
+            top: 0px;
+            height: 50px; /* Change with top of #container */
+            color: #eee;
+            background-color: #00f;
+            width: 100%;
+          }
+
+          #left{float:left}
+          #right{float:right;width:100px;}
+          #center{margin:0 auto;width:100px;}
+
+
+         </style>
+
+
+     </head>
+
+     <body>
+
+       <div id="header">
+
+      <!--   <img src = "lib/lifts.jpg"></img> -->
+      <div id="left">
+        <h5> LIFTS: Learning Interactively in Future Teaching Spaces - (demo - markdown to html tool - october 2019)</h5> </div>
+        <div id="right">  <button id="runBtn" onClick="app.test_run()">Convert</button></div>
+
+
+       </div>
+       <div id="code">
+         <div id="lifts-markdown"></div>
+        </div>
+        <div id="container">
+         <div id="lifts-html">  </div>
+        </div>
+
+
+
+          <script>app.init()</script>
+         <script>app.test()</script>
+
+            <!--  <iframe src="lib/html/reveal.html" name="reveal" id="reveal" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="" allowtransparency="false"></iframe>
+ -->
+         </body>
+
+ </html>
