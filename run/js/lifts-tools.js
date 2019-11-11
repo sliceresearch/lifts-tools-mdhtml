@@ -11289,6 +11289,7 @@
 	    this.markdown = "";
 	    this.html = "";
 	    this.max_list_nodes = 2;
+	    this.headerTag = 'h5';
 	  } /////  init
 
 
@@ -11328,14 +11329,16 @@
 
 	  html_parse(html) {
 	    const root = html_parser.parse(html);
-	    var nnodes = this.process_nodes(root); //  var onodes =this.organise_nodes(nnodes);
+	    var nnodes = this.process_nodes(root); //console.log(nnodes)
 
-	    return nnodes;
+	    var onodes = this.organise_nodes(nnodes);
+	    return onodes;
 	  }
 
 	  organise_nodes(html_nodes) {
 	    var nroot = html_parser.parse();
 	    var snodes = html_nodes.childNodes;
+	    let header_node;
 
 	    for (let i = 0; i < snodes.length; i++) {
 	      let snode = snodes[i];
@@ -11344,14 +11347,27 @@
 	      var nodes = snode.childNodes;
 
 	      for (let j = 0; j < nodes.length; j++) {
-	        let node = nodes[j];
+	        let node = nodes[j]; //  console.log(node.tagName,node)
+
+	        if (node.tagName == this.headerTag) {
+	          header_node = node;
+	        }
 
 	        if (node.tagName == 'ul') {
 	          let list_node = this.organise_node_list(node);
 
 	          for (let k = 0; k < list_node.length; k++) {
+	            section_node.appendChild(header_node);
 	            section_node.appendChild(list_node[k]);
 	            nroot.appendChild(section_node);
+	            section_node = this.add_section_node(nroot);
+	          }
+	        } else if (node.tagName == 'p') {
+	          if (header_node != undefined) {
+	            section_node.appendChild(header_node);
+	            section_node.appendChild(node);
+	            nroot.appendChild(section_node);
+	            section_node = this.add_section_node(nroot);
 	          }
 	        }
 	      }
@@ -11376,14 +11392,16 @@
 	        /// rule max bullet points per page 3
 	        counter = 0;
 	        list_node_new.childNodes = list_item;
-	        list_nodes.push(list_node_new);
+	        list_nodes.push(list_node_new); //  console.log(i,list_node_new,list_item)
+
 	        list_item = [];
 	        list_node_new = this.add_node('ul');
 	      }
 	    }
 
 	    list_node_new.childNodes = list_item;
-	    list_nodes.push(list_node_new);
+	    list_nodes.push(list_node_new); //  console.log('last:',list_node_new,list_item)
+
 	    return list_nodes;
 	  }
 
@@ -11398,7 +11416,7 @@
 	      if (this.isvalid_node(node)) {
 	        //  console.log(node.tagName,node)
 	        if (this.isheader_node(node)) {
-	          node = this.swap_node_tag(node, 'h5');
+	          node = this.swap_node_tag(node, this.headerTag);
 	          nroot.appendChild(section_node);
 	          section_node = this.add_section_node(nroot);
 	        } else {
